@@ -17,6 +17,9 @@ import { SiBisecthosting } from "react-icons/si";
 import { BiReset } from "react-icons/bi";
 import { PiCaretCircleDoubleLeftBold } from "react-icons/pi";
 import { LiaEyeSolid } from "react-icons/lia";
+import { BsFillArrowUpCircleFill } from "react-icons/bs";
+import { useState, useEffect } from "react";
+
 // import { IconButton } from "@material-ui/core";
 function Home() {
   const Item = styled(Paper)(({ theme }) => ({
@@ -201,8 +204,45 @@ function Home() {
           </Box>
         </div>
       </div>
+      <ScrollUp />
     </div>
   );
 }
 
+/*For scroll up*/
+function ScrollUp() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      setIsVisible(scrollTop > 0); // Show button only when scrolled down
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll); // Clean up
+  }, []);
+
+  const handleClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  return (
+    <>
+      <BsFillArrowUpCircleFill
+        style={{
+          fontSize: "30px",
+          justifyContent: "end",
+          position: "fixed",
+          bottom: 10,
+          right: 10,
+          display: "flex",
+          cursor: "pointer",
+          opacity: isVisible ? 1 : 0,
+        }}
+        onClick={handleClick}
+      ></BsFillArrowUpCircleFill>
+    </>
+  );
+}
 export default Home;
